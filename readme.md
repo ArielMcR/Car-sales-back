@@ -20,14 +20,14 @@ Este é o backend da aplicação de venda de carros, desenvolvido utilizando Fas
     ```
 3. Instale as dependências:
     ```bash
-    npm install
+    npm install 
     ```
 
 ## Uso
 
 1. Inicie o servidor:
     ```bash
-    npm start
+    npm run dev
     ```
 2. Acesse a documentação da API:
     - A documentação gerada pelo Swagger estará disponível em `http://localhost:3000/docs`.
