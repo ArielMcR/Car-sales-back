@@ -6,12 +6,14 @@ import fastifySwaggerUi from "@fastify/swagger-ui"
 import routes from "./routes/routes"
 import fastifyStatic from "@fastify/static"
 import path from "path"
+import fastifyMultipart from "@fastify/multipart"
 const PORT = Number(process.env.IO_PORT);
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 app.register(fastifyCors, { origin: '*' })
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
+app.register(fastifyMultipart)
 
 app.register(fastifySwagger, {
     openapi: {

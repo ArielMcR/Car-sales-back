@@ -4,13 +4,15 @@ class SearchInfoService {
     async execute() {
         try {
             const queries = {
-                mark: "SELECT * FROM mark",
-                colors: "SELECT * FROM colors",
-                motors: "SELECT * FROM motors",
-                traction: "SELECT * FROM traction",
-                bodywork: "SELECT * FROM bodywork",
-                fuel: "SELECT * FROM fuel",
-                transmition: "SELECT * FROM transmition",
+                mark: "SELECT id_mark AS id, name FROM mark",
+                models: "SELECT mo.id_model AS id, mo.name, m.name as mark FROM models mo INNER JOIN mark m ON mo.mark_id = m.id_mark",
+                colors: "SELECT id_color AS id, name FROM colors",
+                motors: "SELECT id_motors AS id,name FROM motors",
+                traction: "SELECT id_traction AS id,name FROM traction",
+                bodywork: "SELECT id_bodywork AS id,name FROM bodywork",
+                fuel: "SELECT id_fuel AS id, name FROM fuel",
+                transmition: "SELECT id_transmition AS id,name FROM transmition",
+                direction: "SELECT id_direction AS id,name FROM direction",
             };
 
             const results = await Promise.all(

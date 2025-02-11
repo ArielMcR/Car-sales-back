@@ -6,21 +6,19 @@ class AllCarService {
             SELECT
                 c.id_car,
                 m.name AS "model",
+                ma.name AS "mark",
                 co.name AS "color",
                 d.name AS "direction",
                 b.name AS "bodywork",
                 f.name AS "fuel",
                 t.name AS "traction",
                 mo.name AS "motor",
-                c.description,
-                c.highlights,
-                c.final_plate,
                 c.trade,
                 c.blindage,
                 c.price,
                 c.year,
                 c.kilometers,
-                i.img_base64
+               ARRAY_AGG(i.img_base64) AS images
             FROM car c
                 INNER JOIN models m
                 ON c.model_id = m.id_model
@@ -38,6 +36,12 @@ class AllCarService {
                 ON c.motors_id = mo.id_motors
                 INNER JOIN images i
                 ON c.id_car = i.car_id
+                INNER JOIN mark ma
+                ON m.mark_id = ma.id_mark
+                GROUP BY
+                    c.id_car, m.name, b.name, t.name, ma.name,
+                    c.price, c.year, c.kilometers, c.highlights,
+                    co.name,  d.name, f.name, mo.name, c.trade, c.blindage
                 `
             const result = await db.query(query);
             return result.rows;

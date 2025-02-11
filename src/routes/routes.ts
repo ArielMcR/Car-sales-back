@@ -5,6 +5,7 @@ import { SearchInfoController } from "../controllers/SearchInfoController"
 import { HighlightCarController } from "../controllers/HighlightCarController"
 import { AllCarController } from "../controllers/AllCarController"
 import { CarDetailController } from "../controllers/CarDetailController"
+import { CreateCarController } from "../controllers/CreateCarController"
 export default function routes(app: FastifyZodInstance, opts: any, done: any) {
 
     app.get('/', {
@@ -15,7 +16,7 @@ export default function routes(app: FastifyZodInstance, opts: any, done: any) {
     }, async (res: FastifyRequest, reply: FastifyReply) => {
         return reply.sendFile('index.html');
     })
-    app.get('/buscar_informacoes_iniciais', {
+    app.get('/buscar_filtros', {
         schema: {
             tags: ['Informações'],
             description: 'Buscar informações iniciais da aplicação',
@@ -23,6 +24,12 @@ export default function routes(app: FastifyZodInstance, opts: any, done: any) {
                 mark: z.array(
                     z.object({
                         id_mark: z.number(),
+                        name: z.string()
+                    })
+                ).describe('Marcas disponíveis'),
+                models: z.array(
+                    z.object({
+                        id_model: z.number(),
                         name: z.string()
                     })
                 ).describe('Marcas disponíveis'),
@@ -161,6 +168,44 @@ export default function routes(app: FastifyZodInstance, opts: any, done: any) {
         }
     }, async (req: FastifyRequest<{ Body: { car_id: number } }>, res: FastifyReply) => {
         return new CarDetailController().handle(req, res)
+    })
+
+
+
+    //Rotas Painel administrativo 
+    app.post('/create_car', {
+        schema: {
+            tags: ['Admin'],
+            description: 'Cadastrar carro',
+            body: z.object({
+                model: z.string(),
+                color: z.string(),
+                direction: z.string(),
+                bodywork: z.string(),
+                fuel: z.string(),
+                traction: z.string(),
+                motor: z.string(),
+                description: z.string(),
+                highlights: z.string(),
+                final_plate: z.string(),
+                trade: z.string(),
+                blindage: z.string(),
+                price: z.number(),
+                year: z.number(),
+                kilometers: z.number(),
+                img_base64: z.string()
+            }),
+            200: z.object({
+                ok: z.boolean(),
+                message: z.string()
+            }).describe('Carro cadastrado com sucesso'),
+            500: z.object({
+                ok: z.boolean(),
+                error: z.string()
+            }).describe('Erro ao cadastrar carro')
+        }
+    }, async (req: FastifyRequest<{ Body: { model: string, color: string, direction: string, bodywork: string, fuel: string, traction: string, motor: string, description: string, highlights: string, final_plate: string, trade: string, blindage: string, price: number, year: number, kilometers: number, img_base64: string } }>, res: FastifyReply) => {
+        return new CreateCarController().handle(req, res)
     })
     done()
 }

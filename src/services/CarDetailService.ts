@@ -13,6 +13,8 @@ class CarDetailService {
                 f.name AS "fuel",
                 t.name AS "traction",
                 mo.name AS "motor",
+                ma.name AS "mark",
+                ta.name as "transmition",
                 c.description,
                 c.highlights,
                 c.final_plate,
@@ -21,7 +23,8 @@ class CarDetailService {
                 c.price,
                 c.year,
                 c.kilometers,
-                i.img_base64
+                ARRAY_AGG(i.img_base64) AS images,
+                ARRAY_AGG(i.base_url) AS images_url
             FROM car c
                 INNER JOIN models m
                 ON c.model_id = m.id_model
@@ -39,10 +42,15 @@ class CarDetailService {
                 ON c.motors_id = mo.id_motors
                 INNER JOIN images i
                 ON c.id_car = i.car_id
+                INNER JOIN mark ma
+                ON m.mark_id = ma.id_mark
+                INNER JOIN transmition ta
+                ON c.transmition_id = ta.id_transmition
                 WHERE c.id_car = ${car_id} 
+                GROUP BY c.id_car, m.name, b.name, t.name, co.name, d.name, f.name, mo.name, c.trade, c.blindage, c.price, c.year, c.kilometers, c.highlights, c.final_plate, ma.name, ta.name
             `
             const result = await db.query(query);
-            return result.rows;
+            return result.rows[0];
         } catch (error) {
             console.error("Erro ao buscar informações:", error);
             return { ok: false, error: error };
