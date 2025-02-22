@@ -12,7 +12,6 @@ class HighlightCarService {
                     c.price,
                     c.year,
                     c.kilometers,
-                    ARRAY_AGG(i.img_base64) AS images,
                     ARRAY_AGG(i.base_url) AS images_url,
                     c.highlights
                 FROM car c

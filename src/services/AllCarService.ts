@@ -18,7 +18,7 @@ class AllCarService {
                 c.price,
                 c.year,
                 c.kilometers,
-               ARRAY_AGG(i.img_base64) AS images
+               ARRAY_AGG(i.base_url) AS images_url
             FROM car c
                 INNER JOIN models m
                 ON c.model_id = m.id_model
