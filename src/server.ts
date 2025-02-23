@@ -30,6 +30,6 @@ app.register(fastifyStatic, {
     prefix: '/', // Faz com que "/" acesse os arquivos dentro de "public"
 });
 app.register(routes)
-app.listen({ port: PORT }).then(() => {
+app.listen({ port: PORT, host: '0.0.0.0' }).then(() => {
     console.log(`Server ready at http://localhost:${PORT}`)
 })
