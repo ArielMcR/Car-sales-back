@@ -19,14 +19,6 @@ export default function routes(app: FastifyZodInstance, opts: any, done: any) {
     }, async () => {
         return { message: 'pong' }
     })
-    app.get('/', {
-        schema: {
-            tags: ['Principal'],
-            description: 'Welcome to the API',
-        }
-    }, async (res: FastifyRequest, reply: FastifyReply) => {
-        return reply.sendFile('index.html');
-    })
     app.get('/buscar_filtros', {
         schema: {
             tags: ['Informações'],

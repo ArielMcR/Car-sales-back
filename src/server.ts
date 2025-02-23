@@ -27,7 +27,7 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, { routePrefix: '/docs', })
 app.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
-    prefix: '/', // Faz com que "/" acesse os arquivos dentro de "public"
+    prefix: '/',
 });
 app.register(routes)
 app.listen({ port: PORT, host: '0.0.0.0' }).then(() => {
