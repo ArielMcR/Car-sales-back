@@ -8,6 +8,17 @@ import { CarDetailController } from "../controllers/CarDetailController"
 import { CreateCarController } from "../controllers/CreateCarController"
 export default function routes(app: FastifyZodInstance, opts: any, done: any) {
 
+    app.get('/ping', {
+        schema: {
+            tags: ['Principal'],
+            description: 'Teste de conexão com a API',
+            200: z.object({
+                message: z.string()
+            }).describe('Retorna pong')
+        }
+    }, async () => {
+        return { message: 'pong' }
+    })
     app.get('/', {
         schema: {
             tags: ['Principal'],

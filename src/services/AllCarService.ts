@@ -18,6 +18,7 @@ class AllCarService {
                 c.price,
                 c.year,
                 c.kilometers,
+                ta.name as "transmition",
                ARRAY_AGG(i.base_url) AS images_url
             FROM car c
                 INNER JOIN models m
@@ -38,10 +39,12 @@ class AllCarService {
                 ON c.id_car = i.car_id
                 INNER JOIN mark ma
                 ON m.mark_id = ma.id_mark
+                INNER JOIN transmition ta
+                ON c.transmition_id = ta.id_transmition
                 GROUP BY
                     c.id_car, m.name, b.name, t.name, ma.name,
                     c.price, c.year, c.kilometers, c.highlights,
-                    co.name,  d.name, f.name, mo.name, c.trade, c.blindage
+                    co.name,  d.name, f.name, mo.name, c.trade, c.blindage, ta.name
                 `
             const result = await db.query(query);
             return result.rows;
